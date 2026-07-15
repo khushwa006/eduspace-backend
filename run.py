@@ -77,7 +77,12 @@ def email_wrap(title, body):
         '</div></div>'
     )
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///eduspace.db'
+database_url = os.environ.get("DATABASE_URL")
+
+if database_url:
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url or "sqlite:///eduspace.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET'] = 'dev-secret-key'
 app.config['JWT_EXPIRY_DAYS'] = 30

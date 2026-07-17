@@ -3004,12 +3004,12 @@ def seed_data():
     # ── Sample time slots ───────────────────────────────────
     if TimeSlot.query.count() == 0:
         slots = [
-            TimeSlot(slot_name='9:00 AM - 10:00 AM'),
-            TimeSlot(slot_name='10:00 AM - 11:00 AM'),
-            TimeSlot(slot_name='11:00 AM - 12:00 PM'),
-            TimeSlot(slot_name='2:00 PM - 3:00 PM'),
-            TimeSlot(slot_name='3:00 PM - 4:00 PM'),
-            TimeSlot(slot_name='4:00 PM - 5:00 PM'),
+            TimeSlot(start_time='9:00 AM', end_time='10:00 AM', slot_name='9:00 AM - 10:00 AM'),
+            TimeSlot(start_time='10:00 AM', end_time='11:00 AM', slot_name='10:00 AM - 11:00 AM'),
+            TimeSlot(start_time='11:00 AM', end_time='12:00 PM', slot_name='11:00 AM - 12:00 PM'),
+            TimeSlot(start_time='2:00 PM', end_time='3:00 PM', slot_name='2:00 PM - 3:00 PM'),
+            TimeSlot(start_time='3:00 PM', end_time='4:00 PM', slot_name='3:00 PM - 4:00 PM'),
+            TimeSlot(start_time='4:00 PM', end_time='5:00 PM', slot_name='4:00 PM - 5:00 PM'),
         ]
         db.session.add_all(slots)
         db.session.commit()

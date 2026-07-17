@@ -691,8 +691,9 @@ def lf_serialize(item, current_user_id=None):
         'category':    item.category,
         'description': item.description or '',
         'location':    item.location or 'Not specified',
+        'item_type':   item.item_type,
         'status':      item.status,
-        'contact':     item.contact or '',
+        'contact_info': item.contact_info or '',
         'reported_by': item.reported_by,
         'reporter_name': f"{item.reporter.first_name} {item.reporter.last_name}",
         'is_mine':     item.reported_by == current_user_id,
@@ -717,20 +718,20 @@ def report_lost_found():
     data = request.json or {}
     if not data.get('title','').strip():
         return jsonify({'error': 'Item name is required'}), 400
-    if not data.get('status') in ['lost','found']:
-        return jsonify({'error': 'Status must be lost or found'}), 400
+    if not data.get('item_type') in ['lost','found']:
+        return jsonify({'error': 'Item type must be lost or found'}), 400
     item = LostFoundItem(
-        reported_by = request.user_id,
+        reported_by  = request.user_id,
         title        = data['title'].strip(),
-        category    = data.get('category','other'),
-        description = data.get('description','').strip(),
-        location    = data.get('location','').strip(),
-        status      = data['status'],
-        contact     = data.get('contact','').strip(),
+        category     = data.get('category','other'),
+        description  = data.get('description','').strip(),
+        location     = data.get('location','').strip(),
+        item_type    = data['item_type'],
+        contact_info = data.get('contact_info','').strip(),
     )
     db.session.add(item)
     db.session.commit()
-    log_activity(request.user_id, 'lost_found', f'Reported "{item.title}" as {item.status}')
+    log_activity(request.user_id, 'lost_found', f'Reported "{item.title}" as {item.item_type}')
     return jsonify({'message': 'Item reported successfully!', 'id': item.id}), 201
 
 @app.route('/api/lost-found/<int:item_id>/claim', methods=['POST'])

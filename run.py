@@ -3060,8 +3060,10 @@ def seed_data():
             print(f'✅ {len(samples)} Lost & Found items seeded')
 
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        seed_data()
-    app.run(debug=True, port=5000)
+with app.app_context():
+       db.create_all()
+
+   if __name__ == '__main__':
+       with app.app_context():
+           seed_data()
+       app.run(debug=True, port=5000)
